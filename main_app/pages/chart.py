@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from bokeh.plotting import figure
-import process_data
+from main_app.process_data import  *
 import plotly.express as px
 
 df = pd.read_csv('data.csv')
