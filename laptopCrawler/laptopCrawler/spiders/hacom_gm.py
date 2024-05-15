@@ -2,17 +2,17 @@ import scrapy
 
 
 class HaCom(scrapy.Spider):
-    name = "hacom_vp"
+    name = "hacom_gm"
     allowed_domains = ["hacom.vn"]
-    start_urls = ["https://hacom.vn/laptop-tablet-mobile/"]
+    start_urls = ["https://hacom.vn/laptop-gaming-do-hoa/"]
     a = 1
 
     def parse(self, response):
         laps = response.css('div.p-info')
         for lap in laps:
             yield scrapy.Request('https://hacom.vn' + lap.css('h3.p-name a').attrib['href'], callback=self.lap_parse)
-        if self.a < 17:
-            next_page_url = 'https://hacom.vn/laptop-tablet-mobile/' + str(self.a + 1) + '/'
+        if self.a < 7:
+            next_page_url = 'https://hacom.vn/laptop-gaming-do-hoa/' + str(self.a + 1) + '/'
             yield response.follow(next_page_url, callback=self.parse)
             self.a += 1
 
