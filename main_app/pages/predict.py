@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
 import streamlit as st
-import process_data
+from main_app.process_data import  *
 
 model = process_data.model
 
