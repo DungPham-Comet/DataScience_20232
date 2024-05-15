@@ -71,6 +71,8 @@ def get_cpu_gen(s):
             return f'Ryzen {words[2]}'
         if 'Ryzen' in words[2]:
             return f'Ryzen {words[3]}'
+        if 'Core' in words[2]:
+            return words[3] + ' ' + words[4]
         if '-' in words[2]:
             return words[2].split('-')[0]
         return words[2]
@@ -83,8 +85,3 @@ def get_ram_max(s):
         return int(match.group(1))
     else:
         return None
-
-# Test cases
-print(get_ram_max("8GB DDR4 3200MHz (Up to 16GB)"))  # Output: 16
-print(get_ram_max("8GB DDR4 3200MHz (up to 32GB)"))  # Output: 32
-print(get_ram_max("16GB (8GB Soldered DDR4-3200MHz + 8GB SO-DIMM DDR4-3200MHz) (Up to 16GB)"))  # Output: 64
