@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[68]:
+
 
 import numpy as np
 import pandas as pd
@@ -7,20 +12,20 @@ import seaborn as sns
 import re
 
 
-# In[189]:
+# In[69]:
 
 def laptopworld_vp(file):
 
     df = pd.read_json(file)
 
 
-    # In[190]:
+    # In[70]:
 
 
     df
 
 
-    # In[191]:
+    # In[71]:
 
 
     df_new = pd.DataFrame(columns=[
@@ -45,37 +50,37 @@ def laptopworld_vp(file):
     ])
 
 
-    # In[192]:
+    # In[72]:
 
 
     df_new['name'] = df['name']
 
 
-    # In[193]:
+    # In[73]:
 
 
     df_new['name']
 
 
-    # In[194]:
+    # In[74]:
 
 
     df_new['brand'] = df['name'].str.extract(r'(Asus|Dell|Lenovo|HP|Acer|Apple|Acer|MSI|VAIO|LG|DELL|Chuwi|Lenovo|Microsoft|LENOVO|LENOVO|Dell|ASUS)')
 
 
-    # In[195]:
+    # In[75]:
 
 
     df_new['brand'].value_counts()
 
 
-    # In[196]:
+    # In[76]:
 
 
     df_new.loc[df_new['brand'].isin(['Asus', 'ASUS']), 'brand'] = 'Asus'
 
 
-    # In[197]:
+    # In[77]:
 
 
     for i in range(len(df['Bộ xử lý - CPU'])):
@@ -85,68 +90,68 @@ def laptopworld_vp(file):
             df.loc[i, 'Bộ xử lý - CPU'] = df.iloc[i, 22]
 
 
-    # In[198]:
+    # In[78]:
 
 
     df_new['chipset'] = df['Bộ xử lý - CPU'].str.extract(r'(Intel|AMD|Alder Lake|Apple)')
 
 
-    # In[199]:
+    # In[79]:
 
 
     df_new['chipset_gen'] = df['Bộ xử lý - CPU']
 
 
-    # In[200]:
+    # In[80]:
 
 
     df_new['screen_size'] = df['Màn hình - Monitor'].str.extract(r'(\d+(?:\.\d+)?)\s*inch')
 
 
-    # In[201]:
+    # In[81]:
 
 
     df_new['screen_revolution'] = df['Màn hình - Monitor'].str.extract(r'(\d+(?:\.\d+)?K|FHD|WUXGA|QHD|Full HD)')
 
 
-    # In[202]:
+    # In[82]:
 
 
     df_new['screen_full'] = df['Màn hình - Monitor'].str.extract(r'\((.*?)\)')
 
 
-    # In[203]:
+    # In[83]:
 
 
     df_new[['screen_width', 'screen_height']] = df_new['screen_full'].str.extract(r'(\d+)\s*[xX×]\s*(\d+)')
 
 
-    # In[204]:
+    # In[84]:
 
 
     df_new['screen_width'] = pd.to_numeric(df_new['screen_width'])
     df_new['screen_height'] = pd.to_numeric(df_new['screen_height'])
 
 
-    # In[205]:
+    # In[85]:
 
 
     df_new['ram'] = df['Bộ nhớ trong - Ram'].str.extract(r'(\d+)GB')
 
 
-    # In[206]:
+    # In[86]:
 
 
     df_new['storage_type']=df['Ổ đĩa cứng - HDD'].str.extract(r'(SSD|HDD)')
 
 
-    # In[207]:
+    # In[87]:
 
 
     df_new['storage_type'].value_counts()
 
 
-    # In[208]:
+    # In[88]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -156,7 +161,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 26][i]
 
 
-    # In[209]:
+    # In[89]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -166,7 +171,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 23][i]
 
 
-    # In[210]:
+    # In[90]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -176,7 +181,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 27][i]
 
 
-    # In[211]:
+    # In[91]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -186,7 +191,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 30][i]
 
 
-    # In[212]:
+    # In[92]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -196,7 +201,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 21][i]
 
 
-    # In[213]:
+    # In[93]:
 
 
     for i in range(len(df['Ổ đĩa cứng - HDD'])):
@@ -206,7 +211,7 @@ def laptopworld_vp(file):
             df['Ổ đĩa cứng - HDD'][i] = df.iloc[:, 47][i]
 
 
-    # In[214]:
+    # In[94]:
 
 
     columns_info = [(col_name, col_number) for col_number, col_name in enumerate(df.columns)]
@@ -216,25 +221,25 @@ def laptopworld_vp(file):
         print(f"Column Name: {col_name}, Column Number: {col_number}")
 
 
-    # In[215]:
+    # In[95]:
 
 
     size_info = df['Ổ đĩa cứng - HDD'].str.extract(r'(\d+)TB|(\d+)GB')
 
 
-    # In[216]:
+    # In[96]:
 
 
     df_new['storage'] = size_info.apply(lambda row: int(row[0]) * 1024 if pd.notna(row[0]) else (int(row[1]) if pd.notna(row[1]) else 0), axis=1)
 
 
-    # In[217]:
+    # In[97]:
 
 
     df_new['vga'] = df['Card đồ hoạ - Video'].str.lower().str.extract(r'(intel|amd|nvidia)')
 
 
-    # In[218]:
+    # In[98]:
 
 
     def get_battery_capacity(string):
@@ -256,14 +261,14 @@ def laptopworld_vp(file):
             return None
 
 
-    # In[219]:
+    # In[99]:
 
 
     df_new['battery'] = df['Pin']
     df_new['battery'] = df_new['battery'].apply(get_battery_capacity)
 
 
-    # In[220]:
+    # In[100]:
 
 
     def get_number_from_string(s):
@@ -277,56 +282,56 @@ def laptopworld_vp(file):
         return float(matches[0]) if matches else None
 
 
-    # In[221]:
+    # In[101]:
 
 
     get_number_from_string(" ")
 
 
-    # In[222]:
+    # In[102]:
 
 
     df_new['weight'] = df['Trọng lượng']
 
 
-    # In[223]:
+    # In[103]:
 
 
     df_new['weight'] = df_new['weight'].apply(get_number_from_string)
 
 
-    # In[224]:
+    # In[104]:
 
 
     df_new.loc[df_new['weight'] > 100, 'weight'] *= 0.001
 
 
-    # In[225]:
+    # In[105]:
 
 
     df_new['weight'].isna().sum()
 
 
-    # In[226]:
+    # In[106]:
 
 
     df_new['weight']
 
 
-    # In[227]:
+    # In[107]:
 
 
     df_new['price'] = df['gia goc'].str.replace(r'[^\d]', '', regex=True)
     df_new['price'] = pd.to_numeric(df_new['price'], errors='coerce')
 
 
-    # In[228]:
+    # In[108]:
 
 
     df_new['ram'] = pd.to_numeric(df_new['ram'].str.extract('(\d+)')[0])
 
 
-    # In[229]:
+    # In[109]:
 
 
     def get_ram_max(s):
@@ -339,87 +344,102 @@ def laptopworld_vp(file):
             return None
 
 
-    # In[230]:
+    # In[110]:
 
 
     df_new['ram_max'] = df['Bộ nhớ trong - Ram'].apply(get_ram_max)
 
 
-    # In[231]:
+    # In[111]:
 
 
     df_new['ram_max'] = df_new['ram_max'].fillna(df_new['ram'] * 1.5).infer_objects(copy=False)
 
 
-    # In[232]:
+    # In[112]:
 
 
     df_new['webcam'] = df['Webcam'].notnull().astype(int)
 
 
-    # In[233]:
+    # In[113]:
 
 
     df_new['webcam'].value_counts()
 
 
-    # In[234]:
+    # In[114]:
 
 
     for i in range(len(df['Hệ điều hành - Operation System'])):
         if type(df['Hệ điều hành - Operation System'][i]) == str:
             continue
         else:
-            df.loc[i, 'Hệ điều hành - Operation System'] = df.iloc[i, 30]
+            df.loc[i, 'Hệ điều hành - Operation System'] = df.iloc[i, 46]
 
 
-    # In[235]:
+    # In[115]:
 
 
-    for i in range(len(df['Hệ điều hành - Operation System'])):
-        if type(df['Hệ điều hành - Operation System'][i]) != str:
-            continue  
-        if len(df['Hệ điều hành - Operation System'][i]) >=2:
-            continue
-        else:
-            df.loc[i, 'Hệ điều hành - Operation System'] = df.loc[i, 'name']
+    # for i in range(len(df['Hệ điều hành - Operation System'])):
+    #     if type(df['Hệ điều hành - Operation System'][i]) != str:
+    #         continue  
+    #     if len(df['Hệ điều hành - Operation System'][i]) >=2:
+    #         continue
+    #     else:
+    #         df.loc[i, 'Hệ điều hành - Operation System'] = df.loc[i, 'name']
 
 
-    # In[236]:
+    # In[116]:
 
 
     df_new['os'] = df['Hệ điều hành - Operation System'].str.extract(r'(Window. \d\d|Windows. \d\d|Win \d\d|Windows 11|Dos|Ubuntu|Mac OS|No OS|Fedora|NoOS|MAC|Windows® 11|Non OS|Window 11|Windows 11)')
 
 
-    # In[237]:
+    # In[117]:
 
 
     df_new['os'].value_counts()
 
 
-    # In[238]:
+    # In[118]:
 
 
     df_new = df_new.dropna(subset=['os'])
 
 
-    # In[239]:
+    # In[119]:
 
 
     df_new.loc[df_new['os'].isin(['Windows® 11', 'Window 11', 'Windows 11', 'Windows 11', 'Windows® 11']), 'os'] = 'Windows 11'
     df_new.loc[df_new['os'].isin(['Non OS', 'No OS']), 'os'] = 'NoOS'
 
 
-    # In[240]:
+    # In[120]:
 
 
     df_new.loc[df_new['os'].isin(['Windows 11', 'Windows 11', 'Windows® 11 ']), 'os'] = 'Windows 11'
 
 
-    # In[241]:
+    # In[121]:
+
+
+    df_new.loc[df_new['os'].isin(['Windows® 11', 'Window 11', 'Windows 11', 'Windows 11', 'Windows® 11 ', 'Windows 11']), 'os'] = 'Windows 11'
+    df_new.loc[df_new['os'].isin(['Non OS', 'No OS']), 'os'] = 'NoOS'
+
+
+    # In[122]:
 
 
     df_new['os'].value_counts()
+
+
+    # In[123]:
+
+
+    mask = df.isin(['Windows® 11'])
+    indices = df.loc[mask.any(axis=1)].index
+    indices
 
 
     # In[242]:

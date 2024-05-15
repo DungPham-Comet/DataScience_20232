@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[85]:
+
+
 import numpy as np 
 import pandas as pd 
 from matplotlib import pyplot as plt
@@ -5,9 +11,30 @@ import plotly.express as px
 import seaborn as sns
 import re
 
-def hacom(file):
 
-    df = pd.read_json(file)
+# In[86]:
+
+def hacom(files):
+
+    df1 = pd.read_json(files[0])
+    df2 = pd.read_json(files[1])
+    df = pd.concat([df1, df2], ignore_index=True)
+
+
+    # In[87]:
+
+
+    df
+
+
+    # In[88]:
+
+
+    df.columns
+
+
+    # In[89]:
+
 
     df_new = pd.DataFrame(columns=[
     'name',
@@ -28,40 +55,56 @@ def hacom(file):
     'price'
     ])
 
+
+    # In[90]:
+
+
     df_new['name'] = df['name']
 
 
-    # In[121]:
+    # In[91]:
 
 
     df_new['brand'] = df['Hãng sản xuất']
 
 
-    # In[122]:
+    # In[92]:
 
 
     df_new['brand'].value_counts()
 
 
-    # In[123]:
+    # In[93]:
 
 
     df_new.loc[df_new['brand'].isin(['Asus', 'ASUS']), 'brand'] = 'Asus'
 
 
-    # In[124]:
+    # In[94]:
 
 
     df_new.loc[df_new['brand'].isin(['Acer', 'Acer ']), 'brand'] = 'Acer'
 
 
-    # In[125]:
+    # In[95]:
+
+
+    df_new.loc[df_new['brand'].isin(['Dell', 'DELL']), 'brand'] = 'Dell'
+
+
+    # In[96]:
+
+
+    df_new.loc[df_new['brand'].isin(['Lenovo', 'LENOVO', 'LENOVO ', 'Lenovo ']), 'brand'] = 'Lenovo'
+
+
+    # In[97]:
 
 
     df_new['brand'].value_counts()
 
 
-    # In[126]:
+    # In[98]:
 
 
     for i in range(len(df['VGA'])):
@@ -71,73 +114,73 @@ def hacom(file):
             df.loc[i, 'VGA'] = df.iloc[i, 68]
 
 
-    # In[127]:
+    # In[99]:
 
 
     df_new['vga'] = df["VGA"].str.lower().str.extract(r'(intel|amd|nvidia|apple)')
 
 
-    # In[128]:
+    # In[100]:
 
 
     df_new['vga']
 
 
-    # In[129]:
+    # In[101]:
 
 
     df_new['vga'].value_counts()
 
 
-    # In[130]:
+    # In[102]:
 
 
     df_new['price'] = df['giá gốc'].str.replace("₫", "")
 
 
-    # In[131]:
+    # In[103]:
 
 
     df_new['price']
 
 
-    # In[132]:
+    # In[104]:
 
 
     df_new['price'] = df_new['price'].str.replace(".", "")
 
 
-    # In[133]:
+    # In[105]:
 
 
     df_new['price'].isna().sum()
 
 
-    # In[134]:
+    # In[106]:
 
 
     df_new = df_new.dropna(subset=['price'])
 
 
-    # In[135]:
+    # In[107]:
 
 
     df_new['price'].isna().sum()
 
 
-    # In[136]:
+    # In[108]:
 
 
     df_new['chipset'] = df['Bộ vi xử lý'].str.extract(r'(Intel|AMD|Apple)')
 
 
-    # In[137]:
+    # In[109]:
 
 
     df_new['chipset'].value_counts()
 
 
-    # In[138]:
+    # In[110]:
 
 
     for i in range(len(df['Bộ nhớ trong'])):
@@ -147,7 +190,7 @@ def hacom(file):
             df.loc[i, 'Bộ nhớ trong'] = df.iloc[i, 99]
 
 
-    # In[139]:
+    # In[111]:
 
 
     for i in range(len(df['Bộ nhớ trong'])):
@@ -157,7 +200,7 @@ def hacom(file):
             df.loc[i, 'Bộ nhớ trong'] = df.iloc[i, 52]
 
 
-    # In[140]:
+    # In[112]:
 
 
     for i in range(len(df['Bộ nhớ trong'])):
@@ -167,7 +210,7 @@ def hacom(file):
             df.loc[i, 'Bộ nhớ trong'] = df.iloc[i, 65]
 
 
-    # In[141]:
+    # In[113]:
 
 
     df_new['ram'] = df["Bộ nhớ trong"].str.extract(r'(\d*.GB|\d*.G)')
@@ -177,7 +220,7 @@ def hacom(file):
     df_new['ram'] = df_new['ram'].str.replace('GB', '')
 
 
-    # In[142]:
+    # In[114]:
 
 
     for i in range(len(df['Dung lượng tối đa'])):
@@ -187,7 +230,7 @@ def hacom(file):
             df.loc[i, 'Dung lượng tối đa'] = df.iloc[i, 54]
 
 
-    # In[143]:
+    # In[115]:
 
 
     for i in range(len(df['Dung lượng tối đa'])):
@@ -197,7 +240,7 @@ def hacom(file):
             df.loc[i, 'Dung lượng tối đa'] = df.iloc[i, 102]
 
 
-    # In[144]:
+    # In[116]:
 
 
     for i in range(len(df['Dung lượng tối đa'])):
@@ -207,25 +250,25 @@ def hacom(file):
             df.loc[i, 'Dung lượng tối đa'] = df.iloc[i, 67]
 
 
-    # In[145]:
+    # In[117]:
 
 
     df.iloc[:, 67].value_counts()
 
 
-    # In[146]:
+    # In[118]:
 
 
     df_new['ram_max'] = df['Dung lượng tối đa'].str.extract(r'(\d+)GB*')
 
 
-    # In[147]:
+    # In[119]:
 
 
     df_new['ram_max'][71]
 
 
-    # In[148]:
+    # In[120]:
 
 
     for i in range(len(df['Ổ cứng'])):
@@ -235,7 +278,7 @@ def hacom(file):
             df.loc[i, 'Ổ cứng'] = df.iloc[i, 69]
 
 
-    # In[149]:
+    # In[121]:
 
 
     for i in range(len(df['Ổ cứng'])):
@@ -245,31 +288,31 @@ def hacom(file):
             df.loc[i, 'Ổ cứng'] = df.iloc[i, 103]
 
 
-    # In[150]:
+    # In[122]:
 
 
     df.iloc[:, 83].value_counts()
 
 
-    # In[151]:
+    # In[123]:
 
 
     df_new['storage_type'] = df['Ổ cứng'].str.extract(r'(SSD|HDD)')
 
 
-    # In[152]:
+    # In[124]:
 
 
     size_info = df['Ổ cứng'].str.extract(r'(\d+)TB|(\d+)GB')
 
 
-    # In[153]:
+    # In[125]:
 
 
     df_new['storage'] = size_info.apply(lambda row: int(row[0]) * 1024 if pd.notna(row[0]) else (int(row[1]) if pd.notna(row[1]) else 512), axis=1)
 
 
-    # In[154]:
+    # In[126]:
 
 
     for i in range(len(df['Hệ điều hành'])):
@@ -279,32 +322,32 @@ def hacom(file):
             df.loc[i, 'Hệ điều hành'] = df.iloc[i, 83]
 
 
-    # In[155]:
+    # In[127]:
 
 
     df_new['os'] = df["Hệ điều hành"].str.extract(r'(Window.\d\d|Window. \d\d|Win \d\d|Dos|Ubuntu|Mac OS|No OS|Fedora)')
 
 
-    # In[156]:
+    # In[128]:
 
 
     df_new['os'].value_counts()
 
 
-    # In[157]:
+    # In[129]:
 
 
     df_new.loc[df_new['os'].isin(['Windows 11', 'Win 11', 'Windows11', 'Window 11']), 'os'] = 'Windows 11'
     df_new.loc[df_new['os'].isin(['Windows10', 'Win 10']), 'os'] = 'Windows 10'
 
 
-    # In[158]:
+    # In[130]:
 
 
     df_new['os'].value_counts()
 
 
-    # In[159]:
+    # In[131]:
 
 
     def get_battery_capacity(string):
@@ -326,14 +369,14 @@ def hacom(file):
             return None
 
 
-    # In[160]:
+    # In[132]:
 
 
     df_new['battery'] = df['Pin']
     df_new['battery'] = df_new['battery'].apply(get_battery_capacity)
 
 
-    # In[161]:
+    # In[133]:
 
 
     df_new['screen_size'] = df['Màn hình'].str.extract(r'(\d*\.*\d+-inch|\d*\.*\d+ *inch|\d*\.*\d+-Inch|\d*\.*\d+ *Inch|\d*\.*\d+")')
@@ -351,13 +394,13 @@ def hacom(file):
     df_new['screen_pixels'] = df_new['screen_pixels'].str.replace('X', 'x')
 
 
-    # In[162]:
+    # In[134]:
 
 
     df_new[['screen_width', 'screen_height']] = df_new['screen_pixels'].str.extract(r'(\d+)\s*[xX×]\s*(\d+)')
 
 
-    # In[163]:
+    # In[135]:
 
 
     df_new['weight'] = df['Cân nặng'].str.extract(r'(\d*\.*\d* *kg|\d*\.*\d* *Kg)')
@@ -365,87 +408,93 @@ def hacom(file):
     df_new['weight'] = df_new['weight'].str.replace("kg", '')
 
 
-    # In[164]:
+    # In[136]:
 
 
     df_new.loc[df_new['weight'] == 72, 'weight'] = 1.72
 
 
-    # In[165]:
+    # In[137]:
 
 
     df_new['webcam'] = df['Webcam'].notnull().astype(int)
 
 
-    # In[166]:
+    # In[138]:
 
 
     df_new['chipset_gen'] = df['Bộ vi xử lý'].str.extract(r'(I\d.\w+|i\d.\w+|AMD.* *\d* *\w*|Apple \w*)')
 
 
-    # In[167]:
+    # In[139]:
 
 
     df_new['chipset_gen']
 
 
-    # In[168]:
+    # In[140]:
 
 
     amd_df = df_new.loc[df_new['chipset'] == 'AMD']
 
 
-    # In[169]:
+    # In[141]:
 
 
     amd_df.loc[:, 'chipset_gen'] = amd_df['chipset_gen'].str.extract(r'(\d+)', expand=False)
 
 
-    # In[170]:
+    # In[142]:
 
 
     amd_df.loc[:, 'chipset_gen'] = 'Ryzen ' + amd_df['chipset_gen']
 
 
-    # In[171]:
+    # In[143]:
 
 
     intel_df = df_new.loc[df_new['chipset'] == 'Intel']
 
 
-    # In[172]:
+    # In[144]:
 
 
     intel_df.loc[:, 'chipset_gen'] = intel_df.loc[:, 'chipset_gen'].str.extract(r'(i[3579]|Ultra [3579])', expand=False)
 
 
-    # In[173]:
+    # In[145]:
 
 
     apple_df = df_new.loc[df_new['chipset'] == 'Apple']
 
 
-    # In[174]:
+    # In[146]:
 
 
     apple_df['chipset_gen'] = apple_df['chipset_gen'].str.extract(r'(M[123])', expand=False)
 
 
-    # In[175]:
+    # In[147]:
 
 
     df_new = pd.concat([amd_df, intel_df, apple_df], ignore_index=True)
 
 
-    # In[176]:
+    # In[148]:
 
 
     mode_values = df_new.mode().iloc[0]
     df_new.fillna(mode_values, inplace=True)
 
 
-    # In[177]:
+    # In[149]:
 
 
     df_new.to_csv("hacom.csv", encoding="utf-8-sig")
+
+
+    # In[ ]:
+
+
+
 
