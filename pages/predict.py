@@ -1,7 +1,7 @@
 import pandas as pd
-from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
+from sklearn.metrics import r2_score
 import streamlit as st
-from main_app.process_data import  *
+from untils import process_data
 
 model = process_data.model
 
@@ -30,7 +30,8 @@ with col3:
     ram_max = st.number_input('Max RAM (GB)', min_value=0, max_value=1024, placeholder=0)
 
 if st.button('Model '):
-    st.write("R2 score: ",  r2_score(process_data.y_test, process_data.model.predict(process_data.scaler.transform(process_data.X_test))))
+    st.write("R2 score: ", r2_score(process_data.y_test, process_data.model.predict(
+        process_data.scaler.transform(process_data.X_test))))
 
 if st.button('Predict'):
     webcam = 1 if webcam else 0

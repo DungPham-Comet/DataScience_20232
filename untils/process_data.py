@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
 import streamlit as st
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('database/data.csv')
 @st.cache_data
 def process_data(df):
     df = df.dropna()
