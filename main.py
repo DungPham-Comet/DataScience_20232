@@ -6,7 +6,7 @@ import os
 import json
 
 current_dir = os.path.dirname(__file__)
-file_path = os.path.join(current_dir, '..','laptopCrawler', 'laptopCrawler', 'DataCrawl', 'test.json')
+file_path = os.path.join(current_dir, '', 'laptopCrawler', 'laptopCrawler', 'DataCrawl', 'test.json')
 
 absolute_path = os.path.abspath(file_path)
 print(f"Đường dẫn tuyệt đối: {absolute_path}")

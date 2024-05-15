@@ -1,10 +1,10 @@
 import pandas as pd
 import streamlit as st
 from bokeh.plotting import figure
-from main_app.process_data import  *
+from untils.process_data import  *
 import plotly.express as px
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('database/data.csv')
 df.dropna()
 
 def price():
