@@ -203,10 +203,6 @@ def laptopworld_gm(file):
         else:
             return None
 
-    # Test cases
-    print(get_battery_capacity("3Cell 52.5WHrs"))  # Output: 52.5
-    print(get_battery_capacity("4Cell 80WH"))     # Output: 80
-    print(get_battery_capacity("4Cell, 90Wh"))    # Output: 90
 
 
     # In[26]:
@@ -439,5 +435,5 @@ def laptopworld_gm(file):
     # In[59]:
 
 
-    df_new.to_csv("laptopworld_gaming.csv", encoding="utf-8-sig")
+    df_new.to_csv("../database/preprocessing/laptopworld_gaming.csv", encoding="utf-8-sig")
 

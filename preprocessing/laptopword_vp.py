@@ -216,10 +216,6 @@ def laptopworld_vp(file):
 
     columns_info = [(col_name, col_number) for col_number, col_name in enumerate(df.columns)]
 
-    # Print the list of columns and their corresponding column numbers
-    for col_name, col_number in columns_info:
-        print(f"Column Name: {col_name}, Column Number: {col_number}")
-
 
     # In[95]:
 
@@ -500,5 +496,5 @@ def laptopworld_vp(file):
     # In[251]:
 
 
-    df_new.to_csv("laptopworld_vp.csv", encoding="utf-8-sig")
+    df_new.to_csv("../database/preprocessing/laptopworld_vp.csv", encoding="utf-8-sig")
 
