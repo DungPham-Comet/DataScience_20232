@@ -37,7 +37,7 @@ st.markdown(
 
 
 if st.button('Crawl data'):
-    os.system('cd laptopCrawler && python3 aps_crawl.py')
+    os.system('cd laptopCrawler && python aps_crawl.py')
 
 # Read and display crawl status
 status_log_path = './database/crawl_status_log.txt'
@@ -85,5 +85,16 @@ if os.path.exists(status_log_path):
     if crawl_success:
         st.success("Crawl Success!")
         st.markdown(f'<p class="total-items">Total Duration: {total_duration} (s)</p>', unsafe_allow_html=True)
+
 else:
     st.write("No crawl status available.")
+
+if st.button('Preprocess filename'):
+    os.system('cd database && python process_filename.py')
+    st.success("Preprocess filename Success!")
+
+if st.button('Preprocess data'):
+    os.system('cd preprocessing && python preprocessing.py')
+    st.success("Preprocess data Success!")
+
+
