@@ -1,27 +1,35 @@
 import scrapy
+from datetime import datetime
 
-
-class PhucAnh(scrapy.Spider):
+class PhucAnh_VP(scrapy.Spider):
     name = "phucanh_vp"
-    allowed_domains = ["www.phucanh.vn", "phucanh.vn"]
-    start_urls = ["https://www.phucanh.vn/laptop.html"]
+    allowed_domains = ["phucanh.vn"]
+    start_urls = ["https://phucanh.vn/laptop-van-phong.html"]
     a = 1
+    item_count = 0
+
     def parse(self, response):
-        laps = response.css('li.p-item-group div.p-container a.p-img')
+        laps = response.css('div.product-list div.p-item div.p-container a.p-name')
         for lap in laps:
             yield scrapy.Request('https://phucanh.vn' + lap.attrib['href'], callback=self.lap_parse)
-
-        if self.a < 27:
-            next_page_url = 'https://www.phucanh.vn/laptop.html?page=' + str(self.a + 1)
+        if self.a < 20:
+            next_page_url = 'https://phucanh.vn/laptop-van-phong.html?page=' + str(self.a + 1)
             yield response.follow(next_page_url, callback=self.parse)
             self.a += 1
-    def lap_parse(self, response):
-        details = response.css('table.tb-product-spec tr')
-        result={
-            f'{detail.css("td.spec-key::text").get()}':detail.css("td.spec-value::text").get() for index,detail in enumerate(details)}
-        result['url']=response.url
-        result['name'] = response.css('body > div.container > h1::text').get()
-        result['gia_niem_yet'] = response.css('div#product-info-price span.detail-product-old-price::text').get()
-        result['gia_uu_dai'] = response.css('div#product-info-price span.detail-product-best-price::text').get()
 
+    def lap_parse(self, response):
+        details = response.css('div#tab1 div.content-text table tr')
+        result = {
+            f'{detail.css("td:first-child span::text").get() if detail.css("td:first-child span::text").get() != None else detail.css("td:first-child strong::text").get() }': detail.css("td:last-child span::text").get() for index, detail in enumerate(details)
+        }
+        result['url'] = response.url
+        result['name'] = response.css('div.content-top-detail-left h1::text').get()
+        result['gia goc'] = response.css('div.price-chinhhang del::text').get()
+        result['gia khuyen mai'] = response.css('div.price-khuyemai div.content b::text').get()
+        
+        self.item_count += 1
         yield result
+
+    def closed(self, reason):
+        with open(f'../database/crawl_status_{self.name}.txt', 'w') as f:
+            f.write(f"phucanh.vn {datetime.now()} - {self.item_count} items scraped.\n")
