@@ -11,7 +11,7 @@ import pandas as pd
 
 def final():
 
-    hacom = pd.read_csv('hacom.csv')
+    hacom = pd.read_csv('../database/preprocessing/hacom.csv')
 
 
     # In[207]:
@@ -23,13 +23,13 @@ def final():
     # In[208]:
 
 
-    ltw_vp = pd.read_csv('laptopworld_vp.csv')
+    ltw_vp = pd.read_csv('../database/preprocessing/laptopworld_vp.csv')
 
 
     # In[209]:
 
 
-    ltw_gm = pd.read_csv('laptopworld_gaming.csv')
+    ltw_gm = pd.read_csv('../database/preprocessing/laptopworld_gaming.csv')
 
 
     # In[210]:
@@ -157,7 +157,7 @@ def final():
     # In[230]:
 
 
-    final.to_csv("final.csv", encoding="utf-8-sig")
+    final.to_csv("../database/preprocessing/final.csv", encoding="utf-8-sig")
 
 
     # In[ ]:
