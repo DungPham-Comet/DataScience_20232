@@ -17,4 +17,5 @@ import json
 #     data = json.load(file)
 
 if st.button('Crawl data'):
-    os.system('cd laptopCrawler && python aps_crawl.py')
+    #os.system('cd laptopCrawler && python aps_crawl.py')
+    os.system('cd database && python process_filename.py')
