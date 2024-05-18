@@ -1,14 +1,19 @@
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
 import streamlit as st
 
-df = pd.read_csv('database/data.csv')
+df = pd.read_csv('database/preprocessing/final.csv')
 @st.cache_data
 def process_data(df):
     df = df.dropna()
+    df = df.drop('Unnamed: 0', axis=1)
+    df = df.drop('Unnamed: 0.1', axis=1)
+    df = df.drop('name', axis=1)
 
     df['chipset'] = df['chipset'].apply(lambda x: 'chipset_' + x)
     df['os'] = df['os'].apply(lambda x: 'os_' + x)
@@ -40,21 +45,34 @@ def process_data(df):
 
 new_df = process_data(df)
 
+scaler = StandardScaler()
+X, y = new_df.drop('price', axis=1), new_df['price']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
 @st.cache_resource
-def train_model(df):
-    X, y = df.drop('price', axis=1), (df['price'])
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=42)
-
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-
+def train_model_rf():
     forest = RandomForestRegressor()
     forest.fit(X_train_scaled, y_train)
 
-    return forest, X_test, y_test, scaler
+    return forest, X_test, y_test
+@st.cache_resource
+def train_model_knn():
+    knn = KNeighborsRegressor()
+    knn.fit(X_train_scaled, y_train)
 
-model, X_test, y_test, scaler = train_model(new_df)
+    return knn, X_test, y_test
+@st.cache_resource
+def train_model_lr():
+    lr = LinearRegression()
+    lr.fit(X_train_scaled, y_train)
+
+    return lr, X_test, y_test
+
+rf_model, rf_X_test, rf_y_test = train_model_rf()
+knn_model, knn_X_test, knn_y_test = train_model_knn()
+lr_model, lr_X_test, lr_y_test = train_model_lr()
 
 @st.cache_data
 def process_user_input(user_input, X_test):
@@ -84,7 +102,7 @@ def process_user_input(user_input, X_test):
         if col in new_data_transformed.columns:
             new_data_transformed[col] = new_data_dummies[col]
 
-    numeric_columns = ['ram', 'battery', 'weight', 'webcam', 'screen_size', 'screen_width', 'screen_height', 'storage',
+    numeric_columns = ['ram', 'battery', 'weight', 'screen_size', 'screen_width', 'screen_height', 'storage',
                        'ram_max']
     for col in numeric_columns:
         if col in new_data_transformed.columns:
