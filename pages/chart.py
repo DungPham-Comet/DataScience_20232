@@ -8,7 +8,7 @@ import io
 from untils.until import feature_price_plot
 
 st.markdown("# Laptop price EDA & Prediction ")
-df = pd.read_csv('database/final.csv', encoding='utf-8')
+df = pd.read_csv('database/preprocessing/final.csv', encoding='utf-8')
 df = df.drop('Unnamed: 0', axis=1)
 df = df.drop('Unnamed: 0.1', axis=1)
 df.dropna()
