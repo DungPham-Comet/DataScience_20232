@@ -2,7 +2,7 @@ import io
 from untils.until import *
 
 st.markdown("# Laptop price EDA & Prediction ")
-df = pd.read_csv('database/data.csv', encoding='utf-8')
+df = pd.read_csv('database/final.csv', encoding='utf-8')
 # df = df.drop('Unnamed: 0', axis=1)
 # df = df.drop('Unnamed: 0.1', axis=1)
 
