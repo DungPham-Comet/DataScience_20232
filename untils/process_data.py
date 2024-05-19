@@ -4,6 +4,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+from sklearn import tree
 from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
 import streamlit as st
 
@@ -64,15 +65,15 @@ def train_model_knn():
 
     return knn, X_test, y_test
 @st.cache_resource
-def train_model_lr():
-    lr = LinearRegression()
-    lr.fit(X_train_scaled, y_train)
+def train_model_tree():
+    tree_reg = tree.DecisionTreeRegressor()
+    tree_reg.fit(X_train_scaled, y_train)
 
-    return lr, X_test, y_test
+    return tree_reg, X_test, y_test
 
 rf_model, rf_X_test, rf_y_test = train_model_rf()
 knn_model, knn_X_test, knn_y_test = train_model_knn()
-lr_model, lr_X_test, lr_y_test = train_model_lr()
+tree_model, tree_X_test, tree_y_test = train_model_tree()
 
 @st.cache_data
 def process_user_input(user_input, X_test):
