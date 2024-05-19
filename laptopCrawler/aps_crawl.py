@@ -32,7 +32,7 @@ def run_scrapy():
         log.write(f"Crawl success")
 
 scheduler = BlockingScheduler()
-scheduler.add_job(run_scrapy, 'interval', minutes=30)
+scheduler.add_job(run_scrapy, 'interval', minutes=3)
 
 try:
     print("Scheduler started...")

@@ -265,7 +265,7 @@ def hacom(files):
     # In[119]:
 
 
-    df_new['ram_max'][71]
+    #df_new['ram_max'][71]
 
 
     # In[120]:

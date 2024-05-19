@@ -32,7 +32,7 @@ with col3:
     brand = st.selectbox('Brand', get_keys('brand'))
     ram_max = st.number_input('Max RAM (GB)', min_value=0, max_value=1024, placeholder=0)
 
-model_option = st.selectbox('Model', ['Random Forest', 'KNN', 'Linear Regression'])
+model_option = st.selectbox('Model', ['Random Forest', 'KNN', 'Decision Tree'])
 
 model = None
 
@@ -54,13 +54,13 @@ elif model_option == 'KNN':
         scaler.transform(knn_X_test)))
     )
 
-elif model_option == 'Linear Regression':
-    model = lr_model
-    st.write('R2 score: ', r2_score(lr_y_test, lr_model.predict(
-        scaler.transform(lr_X_test)))
+elif model_option == 'Decision Tree':
+    model = tree_model
+    st.write('R2 score: ', r2_score(tree_y_test, tree_model.predict(
+        scaler.transform(tree_X_test)))
     )
-    st.write('MAE: ', mean_absolute_error(lr_y_test, lr_model.predict(
-        scaler.transform(lr_X_test)))
+    st.write('MAE: ', mean_absolute_error(tree_y_test, tree_model.predict(
+        scaler.transform(tree_X_test)))
     )
 
 if st.button('Predict'):

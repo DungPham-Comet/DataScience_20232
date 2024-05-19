@@ -1,9 +1,17 @@
-laptopworld.vn 2024-05-18 13:44:56.351947 - 325 items scraped.
-laptopworld.vn 2024-05-18 13:45:58.500677 - 500 items scraped.
-hacom.vn 2024-05-18 13:46:38.499603 - 249 items scraped.
-hacom.vn 2024-05-18 13:49:11.414218 - 576 items scraped.
-phucanh.vn 2024-05-18 13:50:41.709810 - 0 items scraped.
-Crawl started at: 2024-05-18 13:44:16.695589
-Crawl ended at: 2024-05-18 13:50:41.923811
-Total duration: 0:06:25.228222
+laptopworld.vn 2024-05-19 09:46:03.436963 - 325 items scraped.
+laptopworld.vn 2024-05-19 09:47:03.276309 - 500 items scraped.
+hacom.vn 2024-05-19 09:47:39.111445 - 249 items scraped.
+hacom.vn 2024-05-19 09:50:16.451480 - 576 items scraped.
+phucanh.vn 2024-05-19 09:52:23.042852 - 0 items scraped.
+Crawl started at: 2024-05-19 09:45:25.241766
+Crawl ended at: 2024-05-19 09:52:23.152249
+Total duration: 0:06:57.910483
+Crawl successlaptopworld.vn 2024-05-19 09:55:04.701320 - 325 items scraped.
+laptopworld.vn 2024-05-19 09:56:06.265502 - 500 items scraped.
+hacom.vn 2024-05-19 09:56:36.603464 - 249 items scraped.
+hacom.vn 2024-05-19 09:59:34.726698 - 576 items scraped.
+phucanh.vn 2024-05-19 10:01:20.427083 - 0 items scraped.
+Crawl started at: 2024-05-19 09:54:25.249168
+Crawl ended at: 2024-05-19 10:01:20.540119
+Total duration: 0:06:55.290951
 Crawl success
