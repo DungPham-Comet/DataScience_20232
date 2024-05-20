@@ -31,7 +31,7 @@ def price():
         df['price_range'] = pd.cut(df['price'], bins=bins, labels=labels, right=False)
         price_dist = df['price_range'].value_counts().sort_index()
 
-        st.bar_chart(price_dist)
+        st.bar_chart(price_dist, y='count')
 
         st.markdown('<h4 style="text-align: center;">Price</h4>', unsafe_allow_html=True)
         st.write(f"**Mean of Price:** {df['price'].mean()}")
@@ -51,12 +51,34 @@ def ram():
 
         feature_price_plot(df, 'ram')
 
+        st.markdown('<h4 style="text-align: center;"> Scatter ram and price </h4>', unsafe_allow_html=True)
+        scatter = alt.Chart(df).mark_point(size=10, color='blue').encode(
+            y=alt.Y('price:Q', title='Price'),
+            x=alt.X('ram:Q', title='Ram')
+        ).properties(
+            width=800,
+            height=400,
+        )
+
+        st.altair_chart(scatter)
+
 def ram_max():
     if 'ram_max' in df.columns:
-        st.markdown('<h4 style="text-align: center;"> Count plot showing the number of RAM capacity </h4>',
+        st.markdown('<h4 style="text-align: center;"> Count plot showing the number of RAM max capacity </h4>',
                     unsafe_allow_html=True)
 
         feature_price_plot(df, 'ram_max')
+
+        st.markdown('<h4 style="text-align: center;"> Scatter ram max and price </h4>', unsafe_allow_html=True)
+        scatter = alt.Chart(df).mark_point(size=10, color='blue').encode(
+            y=alt.Y('price:Q', title='Price'),
+            x=alt.X('ram_max:Q', title='Ram max')
+        ).properties(
+            width=800,
+            height=400,
+        )
+
+        st.altair_chart(scatter)
 
 def vga():
     if 'vga' in df.columns:
@@ -74,30 +96,41 @@ def battery():
 
         feature_price_plot(df, 'battery_range')
 
+        st.markdown('<h4 style="text-align: center;"> Scatter battery and price </h4>', unsafe_allow_html=True)
+        scatter = alt.Chart(df).mark_point(size=10, color='blue').encode(
+            y=alt.Y('price:Q', title='Price'),
+            x=alt.X('battery:Q', title='Battery')
+        ).properties(
+            width=800,
+            height=400,
+        )
+
+        st.altair_chart(scatter)
+
 def weight():
     if 'weight' in df.columns:
 
         st.markdown('<h4 style="text-align: center;"> Weight and Price </h4>', unsafe_allow_html=True)
         df1 = df.reset_index()
 
-        scatter_weight = alt.Chart(df1).mark_point(size=10, color='blue').encode(
-            x=alt.X('index:Q', title='Index'),
-            y=alt.Y('weight:Q', title='Weight', axis=alt.Axis(titleColor='blue'))
-        )
+        # scatter_weight = alt.Chart(df1).mark_point(size=10, color='blue').encode(
+        #     x=alt.X('index:Q', title='Index'),
+        #     y=alt.Y('weight:Q', title='Weight', axis=alt.Axis(titleColor='blue'))
+        # )
 
         scatter_price = alt.Chart(df1).mark_point(size=10, color='red').encode(
             x=alt.X('index:Q', title='Index'),
             y=alt.Y('price:Q', title='Price', axis=alt.Axis(titleColor='red'))
         )
 
-        combined_chart = alt.layer(scatter_weight, scatter_price).resolve_scale(
-            y='independent'
-        ).properties(
-            width=800,
-            height=400,
-        )
+        # combined_chart = alt.layer(scatter_weight, scatter_price).resolve_scale(
+        #     y='independent'
+        # ).properties(
+        #     width=800,
+        #     height=400,
+        # )
 
-        st.altair_chart(combined_chart)
+        # st.altair_chart(combined_chart)
 
         st.markdown('<h4 style="text-align: center;"> Scatter weight and price </h4>', unsafe_allow_html=True)
         scatter = alt.Chart(df).mark_point(size=10, color='blue').encode(
