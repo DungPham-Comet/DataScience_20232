@@ -12,7 +12,7 @@ class LaptopWorld_VP(scrapy.Spider):
         laps = response.css('div.product-list div.p-item div.p-container a.p-name')
         for lap in laps:
             yield scrapy.Request('https://laptopworld.vn' + lap.attrib['href'], callback=self.lap_parse)
-        if self.a < 20:
+        if self.a < 24:
             next_page_url = 'https://laptopworld.vn/laptop-van-phong.html?page=' + str(self.a + 1)
             yield response.follow(next_page_url, callback=self.parse)
             self.a += 1
