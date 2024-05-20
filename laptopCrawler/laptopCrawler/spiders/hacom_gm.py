@@ -13,7 +13,7 @@ class HaCom(scrapy.Spider):
         for lap in laps:
             self.item_count += 1
             yield scrapy.Request('https://hacom.vn' + lap.css('h3.p-name a').attrib['href'], callback=self.lap_parse)
-        if self.a < 7:
+        if self.a < 8:
             next_page_url = 'https://hacom.vn/laptop-gaming-do-hoa/' + str(self.a + 1) + '/'
             yield response.follow(next_page_url, callback=self.parse)
             self.a += 1
