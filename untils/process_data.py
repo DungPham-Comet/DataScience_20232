@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn import tree
 from sklearn.metrics import r2_score,mean_absolute_error, mean_squared_error, accuracy_score
+from sklearn.model_selection import GridSearchCV
 import streamlit as st
 
 df = pd.read_csv('database/preprocessing/final.csv')

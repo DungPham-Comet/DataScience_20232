@@ -1,6 +1,8 @@
 import pandas as pd
 from sklearn.metrics import r2_score, mean_absolute_error
 import streamlit as st
+from sklearn.tree import DecisionTreeRegressor
+
 from untils.process_data import *
 
 col1, col2, col3 = st.columns(3)
@@ -26,6 +28,7 @@ with col2:
     screen_width = st.number_input('Screen Width (px)', min_value=0, max_value=5000, placeholder=0)
     screen_height = st.number_input('Screen Height (px)', min_value=0, max_value=5000, placeholder=0)
     screen_revolution = st.selectbox('Screen Revolution', get_keys('screen_revolution'))
+
 with col3:
     storage_type = st.selectbox('Storage Type', ['HDD', 'SSD'])
     storage = st.number_input('Storage (GB)', min_value=0, max_value=2000, placeholder=0)
@@ -62,6 +65,76 @@ elif model_option == 'Decision Tree':
     st.write('MAE: ', mean_absolute_error(tree_y_test, tree_model.predict(
         scaler.transform(tree_X_test)))
     )
+
+@st.cache_resource
+def best_model_rf():
+    forest = RandomForestRegressor()
+    param_grid = {
+        'n_estimators': [50, 100, 200],
+        'max_features': [6, 10, 50, 59, 55],
+        'min_samples_split': [2, 4, 6, 8, 10]
+    }
+
+    grid_search = GridSearchCV(forest, param_grid, cv=10, return_train_score=True)
+    grid_search.fit(X_train_scaled, y_train)
+    best_forest = grid_search.best_estimator_
+
+    return best_forest, X_test, y_test
+
+@st.cache_resource
+def best_model_knn():
+    knn = KNeighborsRegressor()
+    param_grid = {
+        'n_neighbors': [5, 8, 10, 15, 20, 25, 30, 35, 40]
+    }
+
+    grid_search = GridSearchCV(knn, param_grid, cv=10, return_train_score=True)
+    grid_search.fit(X_train_scaled, y_train)
+    best_knn = grid_search.best_estimator_
+
+    return best_knn, X_test, y_test
+
+@st.cache_resource
+def best_model_tree():
+    tree = DecisionTreeRegressor()
+    param_grid = {
+        'max_depth': [5, 10, 15, 20, 25, 30, 35, 40],
+        'min_samples_split': [2, 4, 6, 8, 10]
+    }
+
+    grid_search = GridSearchCV(tree, param_grid, cv=10, return_train_score=True)
+    grid_search.fit(X_train_scaled, y_train)
+    best_tree = grid_search.best_estimator_
+
+    return best_tree, X_test, y_test
+
+grid_search = st.toggle('Best model')
+
+if grid_search:
+    if model_option == 'Random Forest':
+        model, rf_X_test, rf_y_test = best_model_rf()
+        st.write('R2 score: ', r2_score(rf_y_test, model.predict(
+            scaler.transform(rf_X_test)))
+        )
+        st.write('MAE: ', mean_absolute_error(rf_y_test, model.predict(
+            scaler.transform(rf_X_test)))
+        )
+    elif model_option == 'KNN':
+        model, knn_X_test, knn_y_test = best_model_knn()
+        st.write('R2 score: ', r2_score(knn_y_test, model.predict(
+            scaler.transform(knn_X_test)))
+        )
+        st.write('MAE: ', mean_absolute_error(knn_y_test, model.predict(
+            scaler.transform(knn_X_test)))
+        )
+    elif model_option == 'Decision Tree':
+        model, tree_X_test, tree_y_test = best_model_tree()
+        st.write('R2 score: ', r2_score(tree_y_test, model.predict(
+            scaler.transform(tree_X_test)))
+        )
+        st.write('MAE: ', mean_absolute_error(tree_y_test, model.predict(
+            scaler.transform(tree_X_test)))
+        )
 
 if st.button('Predict'):
     data = {
